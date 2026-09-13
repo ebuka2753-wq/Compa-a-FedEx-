@@ -83,13 +83,32 @@
       >
 
 
-      <label for="recipientCountry">
+      <label for="recipientCountrySearch">
         Country
       </label>
 
-      <select id="recipientCountry" required>
-        <option value="">Select country</option>
-      </select>
+      <div class="combo" id="countryCombo">
+
+        <input
+          id="recipientCountrySearch"
+          type="text"
+          placeholder="Search country..."
+          autocomplete="off"
+          required
+        >
+
+        <input
+          id="recipientCountry"
+          type="hidden"
+        >
+
+        <div
+          id="countryList"
+          class="combo-list"
+          role="listbox"
+        ></div>
+
+      </div>
 
 
       <label for="recipientState">
