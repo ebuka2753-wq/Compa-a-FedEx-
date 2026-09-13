@@ -79,35 +79,114 @@ const countries = [
 ];
 
 
+// Sorted alphabetically once (used everywhere)
+const sortedCountries = [...countries].sort((a, b) =>
+  a[0].localeCompare(b[0])
+);
+
+
 // ======================================
-// LOAD COUNTRY DROPDOWN
+// SEARCHABLE COUNTRY COMBOBOX
 // ======================================
 
 function loadCountries() {
 
-  const countrySelect =
-    document.getElementById("recipientCountry");
+  const combo  = document.getElementById("countryCombo");
+  const search = document.getElementById("recipientCountrySearch");
+  const hidden = document.getElementById("recipientCountry");
+  const list   = document.getElementById("countryList");
 
-  if (!countrySelect) return;
+  if (!combo || !search || !hidden || !list) return;
 
-  countrySelect.innerHTML =
-    '<option value="">Select country</option>';
 
-  countries.forEach(([name, code]) => {
+  function render(filter) {
 
-    const option = document.createElement("option");
+    const q = (filter || "").trim().toLowerCase();
 
-    option.value = name;
-    option.textContent = `${name} (+${code})`;
+    const matches = q
+      ? sortedCountries.filter(([name]) =>
+          name.toLowerCase().includes(q)
+        )
+      : sortedCountries;
 
-    countrySelect.appendChild(option);
+    list.innerHTML = "";
+
+    if (matches.length === 0) {
+
+      const empty = document.createElement("div");
+      empty.className = "combo-empty";
+      empty.textContent = "No country found";
+      list.appendChild(empty);
+
+      return;
+    }
+
+    matches.forEach(([name, code]) => {
+
+      const item = document.createElement("div");
+      item.className = "combo-item";
+      item.textContent = `${name} (+${code})`;
+
+      item.addEventListener("mousedown", function (e) {
+
+        e.preventDefault(); // keep focus on input
+
+        search.value = name;
+        hidden.value = name;
+
+        list.classList.remove("show");
+
+      });
+
+      list.appendChild(item);
+
+    });
+  }
+
+
+  render("");
+
+
+  search.addEventListener("focus", function () {
+
+    search.select();
+    render("");
+    list.classList.add("show");
 
   });
+
+
+  search.addEventListener("input", function () {
+
+    hidden.value = ""; // clear until a real option is picked
+    render(search.value);
+    list.classList.add("show");
+
+  });
+
+
+  search.addEventListener("keydown", function (e) {
+
+    if (e.key === "Escape") {
+      list.classList.remove("show");
+    }
+
+  });
+
+
+  document.addEventListener("click", function (e) {
+
+    if (!combo.contains(e.target)) {
+      list.classList.remove("show");
+    }
+
+  });
+
 }
 
 
 // ======================================
-// LOAD PHONE CODES
+// PHONE CODES (alphabetical)
 // ======================================
 
 function loadPhoneCodes() {
@@ -125,14 +204,14 @@ function loadPhoneCodes() {
 
     select.innerHTML = "";
 
-    countries.forEach(([name, code]) => {
+    sortedCountries.forEach(([name, code]) => {
 
       const option = document.createElement("option");
 
       option.value = code;
       option.textContent = `+${code} ${name}`;
 
-      if (code === "234") {
+      if (name === "Nigeria") {
         option.selected = true;
       }
 
@@ -167,12 +246,11 @@ function formatPhone(code, number) {
 
 function setupRequestForm() {
 
-  const form =
-    document.getElementById("requestForm");
+  const form = document.getElementById("requestForm");
 
   if (!form) return;
 
-  form.addEventListener("submit", function(e) {
+  form.addEventListener("submit", function (e) {
 
     e.preventDefault();
 
@@ -232,7 +310,7 @@ Please review this receiving request.`;
 // START EVERYTHING
 // ======================================
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
   loadCountries();
   loadPhoneCodes();
