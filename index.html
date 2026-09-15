@@ -3,345 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Logistics Store</title>
-
+  <title>FedEx Stores</title>
   <link rel="stylesheet" href="style.css">
-
-  <!-- ADDED FOR i18N: i18next -->
-  <script src="https://cdn.jsdelivr.net/npm/i18next@23.16.8/dist/umd/i18next.min.js"></script>
 </head>
-
 <body>
-
 <header class="header">
-
-  <div class="logo">
-    📦 <span data-i18n="brandName">Logistics Store</span>
-  </div>
-
-  <!-- ADDED FOR i18N: Language selector -->
-  <div class="language-selector">
-    <button
-      id="languageButton"
-      type="button"
-      aria-label="Change language"
-      aria-expanded="false"
-    >
-      🌐 <span id="currentLanguage">English</span>
-    </button>
-
-    <div
-      id="languageDropdown"
-      class="language-dropdown"
-      hidden
-    >
-      <input
-        id="languageSearch"
-        type="search"
-        placeholder="Search language..."
-        autocomplete="off"
-      >
-
-      <div id="languageList"></div>
-    </div>
-  </div>
-
+  <div class="logo">📦 <span>FedEx Stores</span></div>
   <nav>
-    <a href="#home" data-i18n="nav.home">Home</a>
-    <a href="#receive" data-i18n="nav.receive">Receive</a>
-    <a href="#how" data-i18n="nav.how">How It Works</a>
+    <a href="#home" data-i18n="nav_home">Home</a>
+    <a href="#receive" data-i18n="nav_receive">Receive</a>
+    <a href="#how" data-i18n="nav_how">How It Works</a>
   </nav>
-
+  <div class="lang-switcher">
+    <span>🌐</span>
+    <select id="langSelect"></select>
+  </div>
 </header>
 
-
 <main>
-
 <section id="home" class="hero">
-
   <div class="hero-content">
-
-    <p class="eyebrow" data-i18n="receive.label">RECEIVE</p>
-
-    <h1 data-i18n="hero.title">Receive an item</h1>
-
-    <p data-i18n="hero.description">
-      Enter your delivery information below.
-    </p>
-
-    <a
-      href="#receive"
-      class="hero-btn"
-      data-i18n="hero.button"
-    >
-      Start Request
-    </a>
-
+    <p class="eyebrow" data-i18n="eyebrow_receive">RECEIVE</p>
+    <h1 data-i18n="hero_title">Receive an item</h1>
+    <p data-i18n="hero_desc">Enter your delivery information below.</p>
+    <a href="#receive" class="hero-btn" data-i18n="hero_btn">Start Request</a>
   </div>
-
 </section>
-
 
 <section id="receive" class="section">
-
   <div class="section-title">
-
-    <p class="eyebrow" data-i18n="receive.label">
-      RECEIVE
-    </p>
-
-    <h2 data-i18n="receive.title">
-      Receiving Information
-    </h2>
-
-    <p data-i18n="receive.description">
-      Tell us where the item should be delivered.
-    </p>
-
+    <p class="eyebrow" data-i18n="eyebrow_receive">RECEIVE</p>
+    <h2 data-i18n="receive_title">Receiving Information</h2>
+    <p data-i18n="receive_desc">Tell us where the item should be delivered.</p>
   </div>
-
 
   <form id="requestForm" class="card">
-
     <div class="form-section">
+      <h3 data-i18n="form_section_title">📥 Receiving Information</h3>
+      <label for="recipientName" data-i18n="label_name">Full Name</label>
+      <input id="recipientName" type="text" placeholder="Your full name" data-i18n-placeholder="ph_name" required>
 
-      <h3 data-i18n="form.receivingInformation">
-        📥 Receiving Information
-      </h3>
-
-
-      <label
-        for="recipientName"
-        data-i18n="form.fullName"
-      >
-        Full Name
-      </label>
-
-      <input
-        id="recipientName"
-        type="text"
-        data-i18n-placeholder="form.fullNamePlaceholder"
-        placeholder="Your full name"
-        required
-      >
-
-
-      <label
-        for="recipientCountrySearch"
-        data-i18n="form.country"
-      >
-        Country
-      </label>
-
-      <div
-        class="combo"
-        id="countryCombo"
-      >
-
-        <input
-          id="recipientCountrySearch"
-          type="text"
-          data-i18n-placeholder="form.countryPlaceholder"
-          placeholder="Search country..."
-          autocomplete="off"
-          required
-        >
-
-        <input
-          id="recipientCountry"
-          type="hidden"
-        >
-
-        <div
-          id="countryList"
-          class="combo-list"
-          role="listbox"
-        ></div>
-
+      <label for="recipientCountrySearch" data-i18n="label_country">Country</label>
+      <div class="combo" id="countryCombo">
+        <input id="recipientCountrySearch" type="text" placeholder="Search country..." data-i18n-placeholder="ph_country_search" autocomplete="off" required>
+        <input id="recipientCountry" type="hidden">
+        <div id="countryList" class="combo-list" role="listbox"></div>
       </div>
 
+      <label for="recipientState" data-i18n="label_state">State / Region</label>
+      <input id="recipientState" type="text" placeholder="State or region" data-i18n-placeholder="ph_state" required>
 
-      <label
-        for="recipientState"
-        data-i18n="form.state"
-      >
-        State / Region
-      </label>
+      <label for="recipientCity" data-i18n="label_city">City</label>
+      <input id="recipientCity" type="text" placeholder="City" data-i18n-placeholder="ph_city" required>
 
-      <input
-        id="recipientState"
-        type="text"
-        data-i18n-placeholder="form.statePlaceholder"
-        placeholder="State or region"
-        required
-      >
-
-
-      <label
-        for="recipientCity"
-        data-i18n="form.city"
-      >
-        City
-      </label>
-
-      <input
-        id="recipientCity"
-        type="text"
-        data-i18n-placeholder="form.cityPlaceholder"
-        placeholder="City"
-        required
-      >
-
-
-      <label data-i18n="form.phoneNumber">
-        Phone Number
-      </label>
-
+      <label data-i18n="label_phone">Phone Number</label>
       <div class="phone-group">
-
         <select id="recipientPhoneCode"></select>
-
-        <input
-          id="recipientPhone"
-          type="tel"
-          data-i18n-placeholder="form.phonePlaceholder"
-          placeholder="Phone number"
-          required
-        >
-
+        <input id="recipientPhone" type="tel" placeholder="Phone number" data-i18n-placeholder="ph_phone" required>
       </div>
 
-
-      <label data-i18n="form.whatsappNumber">
-        WhatsApp Number
-      </label>
-
+      <label data-i18n="label_whatsapp">WhatsApp Number</label>
       <div class="phone-group">
-
         <select id="recipientWhatsAppCode"></select>
-
-        <input
-          id="recipientWhatsApp"
-          type="tel"
-          data-i18n-placeholder="form.phonePlaceholder"
-          placeholder="WhatsApp number"
-          required
-        >
-
+        <input id="recipientWhatsApp" type="tel" placeholder="WhatsApp number" data-i18n-placeholder="ph_whatsapp" required>
       </div>
-
     </div>
-
 
     <div class="fee-box">
-
-      <span data-i18n="delivery.fee">
-        Delivery Fee
-      </span>
-
-      <strong data-i18n="delivery.amount">
-        $1,000 USD
-      </strong>
-
+      <span data-i18n="fee_label">Delivery Fee</span>
+      <strong>$1,000 USD</strong>
     </div>
 
-
-    <button
-      type="submit"
-      class="submit-btn"
-      data-i18n="form.submit"
-    >
-      Send Request via WhatsApp
-    </button>
-
+    <button type="submit" class="submit-btn" data-i18n="btn_send">Send Request via WhatsApp</button>
   </form>
-
 </section>
-
 
 <section id="how" class="section">
-
   <div class="section-title">
-
-    <p
-      class="eyebrow"
-      data-i18n="process.label"
-    >
-      PROCESS
-    </p>
-
-    <h2 data-i18n="process.title">
-      How It Works
-    </h2>
-
+    <p class="eyebrow" data-i18n="eyebrow_process">PROCESS</p>
+    <h2 data-i18n="how_title">How It Works</h2>
   </div>
-
-
   <div class="steps">
-
-    <div class="step">
-
-      <span>1</span>
-
-      <h3 data-i18n="process.step1.title">
-        Enter your information
-      </h3>
-
-      <p data-i18n="process.step1.description">
-        Provide your receiving and contact details.
-      </p>
-
-    </div>
-
-
-    <div class="step">
-
-      <span>2</span>
-
-      <h3 data-i18n="process.step2.title">
-        Submit your request
-      </h3>
-
-      <p data-i18n="process.step2.description">
-        Your request opens directly in WhatsApp.
-      </p>
-
-    </div>
-
-
-    <div class="step">
-
-      <span>3</span>
-
-      <h3 data-i18n="process.step3.title">
-        Confirm delivery
-      </h3>
-
-      <p data-i18n="process.step3.description">
-        Our team reviews your request and contacts you.
-      </p>
-
-    </div>
-
+    <div class="step"><span>1</span><h3 data-i18n="step1_title">Enter your information</h3><p data-i18n="step1_desc">Provide your receiving and contact details.</p></div>
+    <div class="step"><span>2</span><h3 data-i18n="step2_title">Submit your request</h3><p data-i18n="step2_desc">Your request opens directly in WhatsApp.</p></div>
+    <div class="step"><span>3</span><h3 data-i18n="step3_title">Confirm delivery</h3><p data-i18n="step3_desc">Our team reviews your request and contacts you.</p></div>
   </div>
-
 </section>
-
 </main>
 
-
 <footer>
-
-  <p data-i18n="footer">
-    © 2026 Logistics Store. All rights reserved.
-  </p>
-
+  <p>© 2026 FedEx Stores. All rights reserved.</p>
 </footer>
 
-
-<!-- ADDED FOR i18N -->
 <script src="script.js"></script>
-
 </body>
 </html>
